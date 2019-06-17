@@ -1,37 +1,41 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
+import { useStoreActions } from 'easy-peasy';
 
-export class TodoItem extends Component {
-
-    getStyle = () => {
-        return {
-            background: '#f4f4f4',
-            padding: '10px',
-            borderBottom: '1px #ccc dotted',
-            textDecoration: this.props.todo.completed ? 'line-through' : 'none'
-        }
+const getStyle = (todo) => {
+    return {
+        background: '#f4f4f4',
+        padding: '10px',
+        borderBottom: '1px #ccc dotted',
+        textDecoration: todo.completed ? 'line-through' : 'none'
     }
+}
 
-    render() {
-        const { id, title } = this.props.todo;
+const TodoItem = ( { todo } ) => {
+
+        const { id, title } = todo;
+
+        const { remove, toggle }  = useStoreActions(actions => ({
+            remove: actions.remove,
+            toggle: actions.toggle,
+        }));
+
+        const style=getStyle(todo);
 
         return (
-            <div style={this.getStyle()} >
+            <div style={style} >
                 <p>
-                    <input type="checkbox" onChange={this.props.markComplete.bind(this, id) } /> {' '}
+                    <span onClick={() => toggle(id)} style={{ cursor: "pointer" }}> {' '}
                     { title }
-                    <button style={btnStyle} onClick={this.props.deleteTodo.bind(this, id)}>x</button>
+                    </span>
+                    <button style={btnStyle} onClick={() => remove(id)}>
+                        <i className="fas fa-trash-alt" />x
+                    </button>
                 </p>
             </div>
         )
-    }
 }
 
-TodoItem.propTypes = {
-    todo: PropTypes.object.isRequired,
-    markComplete: PropTypes.func.isRequired,
-    deleteTodo: PropTypes.func.isRequired,
-}
+export default TodoItem;
 
 const btnStyle = {
     background: '#ff0000',
@@ -42,5 +46,3 @@ const btnStyle = {
     cursor: 'pointer',
     float: 'right'
 }
-
-export default TodoItem

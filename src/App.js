@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { StoreProvider, createStore } from 'easy-peasy';
+import axios from 'axios';
+
 import './App.css';
 import './components/Todos';
 import Todos from './components/Todos';
@@ -7,9 +10,11 @@ import AddTodo from './components/layout/AddTodo';
 import Header from './components/layout/Header';
 import About from './components/pages/About';
 // import uuid from 'uuid';
-import axios from 'axios';
+import model from './model';
 
 class App extends Component  {
+
+  store = createStore(model);
 
   state = {
     todos: [
@@ -67,21 +72,23 @@ class App extends Component  {
 
   render() {
     return (
-      <Router>
-        <div className="App">
-          <div className="container">
-            <Header/>
-            <Route exact path="/" render={props => (
-              <React.Fragment>
-                <AddTodo addTodo={this.addTodo} />
-                <Todos todos={this.state.todos} markComplete={this.markComplete} deleteTodo={this.deleteTodo} />
-              </React.Fragment>
-            )} 
-            />
-            <Route path="/about" component={About} />
+      <StoreProvider store={this.store} >
+        <Router>
+          <div className="App">
+            <div className="container">
+              <Header/>
+              <Route exact path="/" render={props => (
+                <React.Fragment>
+                  <AddTodo addTodo={this.addTodo} />
+                  <Todos todos={this.state.todos} markComplete={this.markComplete} deleteTodo={this.deleteTodo} />
+                </React.Fragment>
+              )} 
+              />
+              <Route path="/about" component={About} />
+            </div>
           </div>
-        </div>
-      </Router>
+        </Router>
+      </StoreProvider>
     );
   }
 }
