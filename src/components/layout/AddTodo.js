@@ -1,43 +1,39 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { useState } from 'react';
+import { useStoreActions } from 'easy-peasy';
 
-export class AddTodo extends Component {
+const AddTodo = () => {
 
-    state = {
-        title: ''
-    }
+    const [title, setTitle] = useState("");
 
-    onChange = (e) => this.setState( { title: e.target.value } );
+    const add = useStoreActions(actions => actions.add);
 
-    onSubmit = (e) => {
+    const onChange = (e) => setTitle(e.target.value);
+
+    const onSubmit = (e) => {
         e.preventDefault();
-        this.props.addTodo(this.state.title);
-        this.setState({ title: '' });
+        add({
+            title,
+            completed: false
+        })
     }
 
-    render() {
-        return (
-            <form onSubmit={this.onSubmit} style={{ display: 'flex' }}>
-                <input 
-                    type="text" 
-                    name="title" 
-                    placeholder="Add a new todo item..."  
-                    style={{ flex: '10', padding: '5px' }} 
-                    value={this.state.title}
-                    onChange={this.onChange}
-                    />
-                <input 
-                    type="submit" 
-                    value="submit" 
-                    className="btn" 
-                    style={{ flex: '1' }} />
-            </form>
-        )
-    }
-}
-
-AddTodo.propTypes = {
-    addTodo: PropTypes.func.isRequired
+    return (
+        <form onSubmit={onSubmit} style={{ display: 'flex' }}>
+            <input 
+                type="text" 
+                name="title" 
+                placeholder="Add a new todo item..."  
+                style={{ flex: '10', padding: '5px' }} 
+                value={title}
+                onChange={onChange}
+                />
+            <input 
+                type="submit" 
+                value="submit" 
+                className="btn" 
+                style={{ flex: '1' }} />
+        </form>
+    )
 }
 
 export default AddTodo
