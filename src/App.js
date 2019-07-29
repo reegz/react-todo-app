@@ -4,6 +4,7 @@ import { StoreProvider, createStore } from 'easy-peasy';
 import axios from 'axios';
 
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './components/Todos';
 import Todos from './components/Todos';
 import AddTodo from './components/layout/AddTodo';

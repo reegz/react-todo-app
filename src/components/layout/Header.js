@@ -1,11 +1,13 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React from 'react';
+import { Link } from 'react-router-dom';
+import Modal from './Modal'
 
 export default function Header() {
     return (
         <header style={headerStyle}>
             <h1>Todo List</h1>
             <Link to="/" style={linkStyle} >Home</Link> | <Link to="/about" style={linkStyle} >About</Link>
+            <Modal />
         </header>
     )
 }
