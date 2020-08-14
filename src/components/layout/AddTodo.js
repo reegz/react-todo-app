@@ -14,7 +14,8 @@ const AddTodo = () => {
         add({
             title,
             completed: false
-        })
+        });
+        setTitle('');
     }
 
     return (
