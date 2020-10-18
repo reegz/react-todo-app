@@ -1,5 +1,5 @@
 import { action, thunk } from 'easy-peasy';
-import {v4 as uuid} from "uuid";
+import { v4 as uuidv4 } from 'uuid';
 
 export default {
     todos: [
@@ -30,7 +30,7 @@ export default {
       }),
 
       add: action( (state, todo) => {
-          todo.id = uuid.v4();
+          todo.id = uuidv4();
           state.todos = [...state.todos, todo];
       }),
       
